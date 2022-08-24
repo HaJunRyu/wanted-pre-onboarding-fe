@@ -2,8 +2,13 @@ import { Button, HStack, Input } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import TodoApiService from 'src/api/service/todo';
 import { LOCAL_STORAGE_KEY } from 'src/constants/localStorage';
+import { Todo } from 'src/types/api/todo';
 
-function TodoForm() {
+interface TodoFormProps {
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+}
+
+function TodoForm({ setTodos }: TodoFormProps) {
   const [todoValue, setTodoValue] = useState('');
 
   const handleChangeTodoValue: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -17,11 +22,12 @@ function TodoForm() {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
-      const res = await TodoApiService.createTodo({
+      const createdTodo = await TodoApiService.createTodo({
         todo: todoValue,
         accessToken: accessToken ?? '',
       });
-      console.log(res);
+
+      setTodos(preTodos => [...preTodos, createdTodo]);
     } catch (error) {
       throw new Error(error as any);
     }

@@ -34,7 +34,7 @@ function Todo() {
       <Heading textAlign="center" mb={10}>
         Todo!
       </Heading>
-      <TodoForm />
+      <TodoForm setTodos={setTodos} />
       <TodoList todos={todos} />
     </Container>
   );
