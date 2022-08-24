@@ -28,6 +28,7 @@ function TodoForm({ setTodos }: TodoFormProps) {
       });
 
       setTodos(preTodos => [...preTodos, createdTodo]);
+      setTodoValue('');
     } catch (error) {
       throw new Error(error as any);
     }
