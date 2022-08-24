@@ -35,7 +35,7 @@ function Todo() {
         Todo!
       </Heading>
       <TodoForm setTodos={setTodos} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} setTodos={setTodos} />
     </Container>
   );
 }

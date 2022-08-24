@@ -4,6 +4,8 @@ import {
   CreateTodoResponse,
   GetTodosRequest,
   GetTodosResponse,
+  UpdateTodoRequest,
+  UpdateTodoResponse,
 } from 'src/types/api/todo';
 
 class TodoApiService extends BaseApiService {
@@ -21,6 +23,22 @@ class TodoApiService extends BaseApiService {
   getTodos({ accessToken }: GetTodosRequest): Promise<GetTodosResponse> {
     return this.http
       .get('', { headers: { Authorization: `Bearer ${accessToken}` } })
+      .then(BaseApiService.handleResponse)
+      .catch(BaseApiService.handleError);
+  }
+
+  updateTodo({
+    accessToken,
+    isCompleted,
+    todo,
+    todoId,
+  }: UpdateTodoRequest): Promise<UpdateTodoResponse> {
+    return this.http
+      .put(
+        `/${todoId}`,
+        { todo, isCompleted },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      )
       .then(BaseApiService.handleResponse)
       .catch(BaseApiService.handleError);
   }
