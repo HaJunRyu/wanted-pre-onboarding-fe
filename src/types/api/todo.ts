@@ -1,4 +1,4 @@
-interface Todo {
+export interface Todo {
   id: number;
   todo: string;
   isCompleted: boolean;
@@ -11,3 +11,9 @@ export interface CreateTodoRequest {
 }
 
 export interface CreateTodoResponse extends Todo {}
+
+export interface GetTodosRequest {
+  accessToken: string;
+}
+
+export type GetTodosResponse = Todo[];
