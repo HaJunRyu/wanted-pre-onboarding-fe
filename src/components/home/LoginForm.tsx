@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Input, Link, Stack } from '@chakra-ui/react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import AuthApiService from 'src/api/service/auth';
 import type { AuthForm } from 'src/types/api/auth';
+import { LOCAL_STORAGE_KEY } from 'src/constants/localStorage';
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [authFormState, setAuthFormState] = useState<AuthForm>({ email: '', password: '' });
 
   const handleChangeAuthForm: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -15,8 +17,15 @@ function LoginForm() {
 
   const handleSignIn: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
-    const res = await AuthApiService.signIn(authFormState);
-    console.log(res);
+
+    try {
+      const res = await AuthApiService.signIn(authFormState);
+
+      localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, res.access_token);
+      navigate('/todo');
+    } catch (error) {
+      throw new Error(error as any);
+    }
   };
   return (
     <form onSubmit={handleSignIn}>
@@ -42,9 +51,9 @@ function LoginForm() {
         <Button type="submit" colorScheme="teal" size="lg">
           로그인
         </Button>
-        <Link as={ReactLink} to="sign-up" colorScheme="teal" size="lg">
+        <Link as={ReactLink} to="/sign-up" colorScheme="teal" size="lg">
           <Button colorScheme="teal" size="lg">
-            회원가입
+            회원가입 하러 가기
           </Button>
         </Link>
       </Stack>
