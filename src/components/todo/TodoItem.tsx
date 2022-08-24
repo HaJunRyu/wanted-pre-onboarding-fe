@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, Input, ListItem } from '@chakra-ui/react';
+import { Button, Checkbox, Flex, HStack, Input, ListItem, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { Todo } from 'src/types/api/todo';
 import TodoApiService from 'src/api/service/todo';
@@ -16,6 +16,24 @@ function TodoItem({ todo, setTodos }: TodoItemProps) {
   const handleChangeTodoValue: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { value } = target;
     setEditTodoValue(value);
+  };
+
+  const handleToggleTodo = async () => {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+    try {
+      const editedTodo = await TodoApiService.updateTodo({
+        todo: todo.todo,
+        accessToken: accessToken ?? '',
+        isCompleted: !todo.isCompleted,
+        todoId: todo.id,
+      });
+
+      setTodos(preTodos =>
+        preTodos.map(preTodo => (todo.id === preTodo.id ? editedTodo : preTodo))
+      );
+    } catch (error) {
+      throw new Error(error as any);
+    }
   };
 
   const handleUpdateTodo = async () => {
@@ -66,7 +84,10 @@ function TodoItem({ todo, setTodos }: TodoItemProps) {
           </>
         ) : (
           <>
-            {todo.todo}
+            <Flex alignItems="center">
+              <Checkbox onChange={handleToggleTodo} isChecked={todo.isCompleted} mr={2} />
+              <Text textDecoration={todo.isCompleted ? 'line-through' : 'none'}>{todo.todo}</Text>
+            </Flex>
             <HStack>
               <Button onClick={() => setIsEditMode(true)}>수정</Button>
               <Button onClick={handleDeleteTodo}>삭제</Button>
