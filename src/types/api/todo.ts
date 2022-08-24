@@ -23,3 +23,8 @@ export interface UpdateTodoRequest {
   isCompleted: boolean;
 }
 export interface UpdateTodoResponse extends Todo {}
+
+export interface DeleteTodoRequest {
+  todoId: number;
+  accessToken: string;
+}

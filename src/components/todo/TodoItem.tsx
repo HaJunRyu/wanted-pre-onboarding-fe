@@ -38,6 +38,21 @@ function TodoItem({ todo, setTodos }: TodoItemProps) {
     }
   };
 
+  const handleDeleteTodo = async () => {
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
+
+    try {
+      await TodoApiService.deleteTodo({
+        accessToken: accessToken ?? '',
+        todoId: todo.id,
+      });
+
+      setTodos(preTodos => preTodos.filter(preTodo => todo.id !== preTodo.id));
+    } catch (error) {
+      throw new Error(error as any);
+    }
+  };
+
   return (
     <ListItem border="1px solid black" p={4} borderRadius={10} mb={1}>
       <Flex justifyContent="space-between" alignItems="center">
@@ -54,7 +69,7 @@ function TodoItem({ todo, setTodos }: TodoItemProps) {
             {todo.todo}
             <HStack>
               <Button onClick={() => setIsEditMode(true)}>수정</Button>
-              <Button>삭제</Button>
+              <Button onClick={handleDeleteTodo}>삭제</Button>
             </HStack>
           </>
         )}

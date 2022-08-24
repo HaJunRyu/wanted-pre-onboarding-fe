@@ -2,6 +2,7 @@ import BaseApiService from 'src/api/core';
 import {
   CreateTodoRequest,
   CreateTodoResponse,
+  DeleteTodoRequest,
   GetTodosRequest,
   GetTodosResponse,
   UpdateTodoRequest,
@@ -39,6 +40,13 @@ class TodoApiService extends BaseApiService {
         { todo, isCompleted },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       )
+      .then(BaseApiService.handleResponse)
+      .catch(BaseApiService.handleError);
+  }
+
+  deleteTodo({ accessToken, todoId }: DeleteTodoRequest) {
+    return this.http
+      .delete(`/${todoId}`, { headers: { Authorization: `Bearer ${accessToken}` } })
       .then(BaseApiService.handleResponse)
       .catch(BaseApiService.handleError);
   }
