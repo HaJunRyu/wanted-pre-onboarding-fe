@@ -1,12 +1,8 @@
 import React from 'react';
-import styled from '@emotion/styled';
-
-const Test = styled.div`
-  color: red;
-`;
+import { Box } from '@chakra-ui/react';
 
 function Home() {
-  return <Test>Home</Test>;
+  return <Box css={{ color: 'red' }}>Home</Box>;
 }
 
 export default Home;
