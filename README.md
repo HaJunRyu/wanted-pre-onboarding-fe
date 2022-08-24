@@ -12,4 +12,4 @@ yarn start
 
 ## 데모 링크
 
-[https://jazzy-mermaid-13cb1a.netlify.app/todo](https://jazzy-mermaid-13cb1a.netlify.app/todo)
+[https://jazzy-mermaid-13cb1a.netlify.app](https://jazzy-mermaid-13cb1a.netlify.app)
