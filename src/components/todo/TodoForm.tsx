@@ -17,7 +17,11 @@ function TodoForm() {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
 
     try {
-      await TodoApiService.createTodo({ todo: todoValue, accessToken: accessToken ?? '' });
+      const res = await TodoApiService.createTodo({
+        todo: todoValue,
+        accessToken: accessToken ?? '',
+      });
+      console.log(res);
     } catch (error) {
       throw new Error(error as any);
     }
@@ -30,7 +34,7 @@ function TodoForm() {
           onChange={handleChangeTodoValue}
           placeholder="할 일을 입력하세요"
         />
-        <Button>추가</Button>
+        <Button type="submit">추가</Button>
       </HStack>
     </form>
   );

@@ -3,12 +3,12 @@ import { CreateTodoRequest, CreateTodoResponse } from 'src/types/api/todo';
 
 class TodoApiService extends BaseApiService {
   constructor() {
-    super('todo');
+    super('todos');
   }
 
   createTodo({ todo, accessToken }: CreateTodoRequest): Promise<CreateTodoResponse> {
     return this.http
-      .post('/create', { todo }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      .post('', { todo }, { headers: { Authorization: `Bearer ${accessToken}` } })
       .then(BaseApiService.handleResponse)
       .catch(BaseApiService.handleError);
   }
